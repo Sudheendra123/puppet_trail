@@ -7,8 +7,11 @@ const puppeteer = require("puppeteer");
     "file:///C:/Users/sudhe/Downloads/ASSCD_cwt_automationoptimisation_2.0.0-beta20230910150115-dependency-check.html",
     { waitUntil: "load" }
   );
-    var copyText = "";
+  var copyText = "";
   var imp = "";
+  var result;
+  var newResult =[]
+  var value;
   var jjj = await page.evaluate(() => {
     var nodes = [...document.getElementsByClassName(" vulnerable")].map(
       (elem) => elem.textContent
@@ -23,7 +26,7 @@ const puppeteer = require("puppeteer");
     // var imp = "";
     // for (let i = 0; i < classNameArray.length; i++) {
     //   page.click('button[data-display-name="' + classNameArray[i] + '"]');
-     
+
     //   var result = document.getElementById("modal-text");
     //   copyText +=  page.evaluate(el => el.textContent, result)
     //   // input.select();
@@ -32,25 +35,28 @@ const puppeteer = require("puppeteer");
     return classNameArray;
   });
 
-  var result;
-  var value;
-
   for (let i = 0; i < jjj.length; i++) {
     await page.click('button[data-display-name="' + jjj[i] + '"]');
-    await page.screenshot({ path: "example.png" });
-     result = page.evaluate(()=>{
-      return document.getElementById("modal-text");
-    })
-     value = await result[0].evaluate(el => el.textContent, result)
+    // await page.screenshot({ path: "example.png" });
+    result =  await page.evaluate(() => {
+      var a = document.getElementById("modal-text");
+      a.select();
+      document.execCommand("Copy");
+      
+      return a.value;
+    });
+
+    newResult.push(result)
+  
+
+
+    //  value = await result[0].evaluate(el => el.textContent, result)
     // copyText +=  await page.evaluate(el => el.textContent, result)
     // input.select();
     // imp += document.execCommand("Copy");
   }
-  console.log('result', value)
 
-  
-
-
+  console.log("Result", newResult);
 
   console.log("jjjjj", jjj);
   // console.log("wkjhkjhka",copyText)
