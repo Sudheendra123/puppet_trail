@@ -12,7 +12,7 @@ const puppeteer = require("puppeteer");
   var result;
   var newResult =[]
   var value;
-  var jjj = await page.evaluate(() => {
+  var vulnerablities = await page.evaluate(() => {
     var nodes = [...document.getElementsByClassName(" vulnerable")].map(
       (elem) => elem.textContent
     );
@@ -35,18 +35,18 @@ const puppeteer = require("puppeteer");
     return classNameArray;
   });
 
-  for (let i = 0; i < jjj.length; i++) {
-    await page.click('button[data-display-name="' + jjj[i] + '"]');
+  for (let i = 0; i < vulnerablities.length; i++) {
+    await page.click('button[data-display-name="' + vulnerablities[i] + '"]');
     // await page.screenshot({ path: "example.png" });
     result =  await page.evaluate(() => {
       var a = document.getElementById("modal-text");
       a.select();
       document.execCommand("Copy");
       
-      return a.value;
+      return JSON.parse(JSON.stringify((a.value)));
     });
 
-    newResult.push(result)
+    newResult.push(result.replaceAll('\n',''))
   
 
 
@@ -58,7 +58,7 @@ const puppeteer = require("puppeteer");
 
   console.log("Result", newResult);
 
-  console.log("jjjjj", jjj);
+  console.log("vulnerablities", vulnerablities);
   // console.log("wkjhkjhka",copyText)
   // await page.screenshot({ path: "example.png" });
 })();
