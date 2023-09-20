@@ -1,14 +1,16 @@
 {
-  "name": "puppet",
+  "name": "automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "automating a webpage",
   "main": "index.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^21.1.1"
+    "electron": "^26.2.1",
+    "puppeteer": "^21.3.0"
   }
 }

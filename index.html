@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Puppeteer UI</title>
+</head>
+<body>
+  <h1>Puppeteer UI</h1>
+  <form id="urlForm">
+    <label for="urlInput">Enter URL:</label>
+    <input type="text" id="urlInput" name="url" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+
+    document.getElementById('urlForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const url = document.getElementById('urlInput').value;
+
+      // Send the URL to the main process (Electron main.js) using IPC
+      ipcRenderer.send('navigate', url);
+    });
+  </script>
+</body>
+</html>
