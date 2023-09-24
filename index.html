@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Puppeteer UI</title>
+  <title>Dependecy Checker UI</title>
 </head>
 <body>
-  <h1>Puppeteer UI</h1>
+  <h1>Dependecy Checker</h1>
   <form id="urlForm">
     <label for="urlInput">Enter URL:</label>
     <input type="text" id="urlInput" name="url" required>
     <button type="submit">Submit</button>
   </form>
 
-  <script>
+  <textarea id="res"></textarea>
 
+  <script>
     document.getElementById('urlForm').addEventListener('submit', (event) => {
       event.preventDefault();
       const url = document.getElementById('urlInput').value;
-
-      // Send the URL to the main process (Electron main.js) using IPC
       ipcRenderer.send('navigate', url);
+      ipcRenderer.on('res', (event, data) => {
+        // Update the UI with data received from Puppeteer
+        document.getElementById('res').textContent = data;
+      });
     });
+
+    
   </script>
 </body>
 </html>
