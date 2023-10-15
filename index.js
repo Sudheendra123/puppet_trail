@@ -49,10 +49,6 @@ app.on("ready", () => {
             return newArr;
         }, vulnerablities);
         console.log(string);
-        setTimeout(() => {
-            mainWindow.webContents.send('res', 'Data sent from Puppeteer');
-          }, 2000); 
-       
     })
 
     // mainWindow.webContents.once('dom-ready', () => {

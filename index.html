@@ -11,17 +11,12 @@
     <button type="submit">Submit</button>
   </form>
 
-  <textarea id="res"></textarea>
 
   <script>
     document.getElementById('urlForm').addEventListener('submit', (event) => {
       event.preventDefault();
       const url = document.getElementById('urlInput').value;
       ipcRenderer.send('navigate', url);
-      ipcRenderer.on('res', (event, data) => {
-        // Update the UI with data received from Puppeteer
-        document.getElementById('res').textContent = data;
-      });
     });
 
     
