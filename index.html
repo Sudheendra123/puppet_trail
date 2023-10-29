@@ -1,25 +1,51 @@
 <!DOCTYPE html>
+
 <html>
-<head>
-  <title>Dependecy Checker UI</title>
-</head>
-<body>
-  <h1>Dependecy Checker</h1>
-  <form id="urlForm">
-    <label for="urlInput">Enter URL:</label>
-    <input type="text" id="urlInput" name="url" required>
-    <button type="submit">Submit</button>
-  </form>
+  <head>
+    <title>Dependency Checker Electron UI</title>
+  </head>
+  <body>
+    <h1>Dependency Checker Report Generator</h1>
+    <form style="padding: 10px" id="urlForm">
+      <label for="urlInput">Enter URL:</label>
+      <input type="text" id="urlInput" name="url" required />
+      <button type="submit">Submit</button>
+    </form>
+
+    <div>Generated Data: </div>
+    <textarea id="display-data" style="padding: 100px" ></textarea>
+    <button onclick="copyToClipboard()">Copy Text</button>
+    <script>
 
 
-  <script>
-    document.getElementById('urlForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const url = document.getElementById('urlInput').value;
-      ipcRenderer.send('navigate', url);
-    });
+      document.getElementById("urlForm").addEventListener("submit", (event) => {
+        console.log("scnkdfbcvkjdfbjfcbkj")
+        event.preventDefault();
+        const url = document.getElementById("urlInput").value;
+        ipcRenderer.send("fetch-data", url);
 
-    
-  </script>
-</body>
+      })
+
+        ipcRenderer.on("extracted-data", (event, data) => {
+        
+          if(Array.isArray(data)){
+          console.log("is it called??")
+        const displayDiv = document.getElementById("display-data");
+        displayDiv.innerText = data;
+          }
+          else{
+            alert('Wrong URL');
+          }
+        });
+
+
+    function copyToClipboard() {
+      const textArea = document.getElementById('display-data');
+      const textToCopy = textArea.value;
+
+      ipcRenderer.send('copy-to-clipboard', textToCopy);
+      alert('Text copied to clipboard!');
+    }
+    </script>
+  </body>
 </html>
